@@ -2377,58 +2377,72 @@ static vector<demon_mutation_info> _select_ds_mutations()
         ct_of_tier[1] = 0;
     }
 
-try_again:
     vector<demon_mutation_info> ret;
 
-    ret.clear();
-    int absfacet = 0;
-    int ice_elemental = 0;
-    int fire_elemental = 0;
-    int cloud_producing = 0;
-
-    set<const facet_def *> facets_used;
-
-    for (int tier = ARRAYSZ(ct_of_tier) - 1; tier >= 0; --tier)
-    {
-        for (int nfacet = 0; nfacet < ct_of_tier[tier]; ++nfacet)
+    bool try_again = false;
+    
+    do {
+  
+        ret.clear();
+        int absfacet = 0;
+        int ice_elemental = 0;
+        int fire_elemental = 0;
+        int cloud_producing = 0;
+  
+        set<const facet_def *> facets_used;
+  
+        for (int tier = ARRAYSZ(ct_of_tier) - 1; tier >= 0; --tier)
         {
-            const facet_def* next_facet;
-
-            do
-            {
-                next_facet = &RANDOM_ELEMENT(_demon_facets);
-            }
-            while (!_works_at_tier(*next_facet, tier)
-                   || facets_used.count(next_facet)
-                   || !_slot_is_unique(next_facet->muts, facets_used));
-
-            facets_used.insert(next_facet);
-
-            for (int i = 0; i < 3; ++i)
-            {
-                mutation_type m = next_facet->muts[i];
-
-                ret.emplace_back(m, next_facet->when[i], absfacet);
-
-                if (m == MUT_COLD_RESISTANCE)
-                    ice_elemental++;
-
-                if (m == MUT_HEAT_RESISTANCE)
-                    fire_elemental++;
-
-                if (m == MUT_ROT_IMMUNITY || m == MUT_IGNITE_BLOOD)
-                    cloud_producing++;
-            }
-
-            ++absfacet;
-        }
-    }
-
-    if (ice_elemental + fire_elemental > 1)
-        goto try_again;
-
-    if (cloud_producing > 1)
-        goto try_again;
+              for (int nfacet = 0; nfacet < ct_of_tier[tier]; ++nfacet)
+              {
+                    const facet_def* next_facet;
+      
+                    do
+                    {
+                          next_facet = &RANDOM_ELEMENT(_demon_facets);
+                      }
+                      while (!_works_at_tier(*next_facet, tier)
+                            || facets_used.count(next_facet)
+                            || !_slot_is_unique(next_facet->muts, facets_used));
+        
+                      facets_used.insert(next_facet);
+        
+                      for (int i = 0; i < 3; ++i)
+                      {
+                            mutation_type m = next_facet->muts[i];
+          
+                            ret.emplace_back(m, next_facet->when[i], absfacet);
+          
+                            if (m == MUT_COLD_RESISTANCE
+                              || m == MUT_ICEMAIL
+                              || m == MUT_ICY_BLUE_SCALES
+                              || m == MUT_PASSIVE_FREEZE
+                            )
+                                ice_elemental++;
+          
+                            if (m == MUT_HEAT_RESISTANCE
+                              || m == MUT_MOLTEN_SCALES
+                              || m == MUT_IGNITE_BLOOD
+                            )
+                                fire_elemental++;
+          
+                            if (m == MUT_ROT_IMMUNITY
+                              || m == MUT_IGNITE_BLOOD)
+                                cloud_producing++;
+                        }
+          
+                        ++absfacet;
+                    }
+                }
+          
+                if (try_again
+                  || (ice_elemental && fire_elemental)
+                  || cloud_producing > 1)
+                    try_again = true;
+                else
+                  try_again = false;
+                
+              } while (try_again);
 
     return ret;
 }
