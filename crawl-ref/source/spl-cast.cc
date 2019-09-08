@@ -1440,8 +1440,12 @@ spret_type your_spells(spell_type spell, int powc, bool allow_fail,
             return SPRET_ABORT;
         }
 
-        if (spd.isMe() && spell == SPELL_INVISIBILITY && !invis_allowed())
-            return SPRET_ABORT;
+        if (spd.isMe()
+            && (spell == SPELL_HASTE && check_stasis(NO_HASTE_MSG)
+                || spell == SPELL_INVISIBILITY && !invis_allowed()))
+        {
+             return SPRET_ABORT;
+        }
     }
 
     if (evoked_item)
@@ -1860,6 +1864,9 @@ static spret_type _do_cast(spell_type spell, int powc, const dist& spd,
     // General enhancement.
     case SPELL_REGENERATION:
         return cast_regen(powc, fail);
+  
+    case SPELL_REPEL_MISSILES:
+        return missile_prot(powc, fail);
 
     case SPELL_DEFLECT_MISSILES:
         return deflection(powc, fail);

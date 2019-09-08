@@ -358,6 +358,17 @@ static void _remove_spell_attributes(spell_type spell)
                                  : "your spell is no longer protecting you");
         }
         break;
+    case SPELL_REPEL_MISSILES:
+        if (you.attribute[ATTR_REPEL_MISSILES])
+        {
+            const int orig_defl = you.missile_deflection();
+            you.attribute[ATTR_REPEL_MISSILES] = 0;
+            mprf(MSGCH_DURATION, "You feel %s from missiles.",
+                                 you.missile_deflection() < orig_defl
+                                 ? "less protected"
+                                 : "your spell is no longer protecting you");
+        }
+        break;
     default:
         break;
     }

@@ -4760,7 +4760,10 @@ bool haste_player(int turns, bool rageext)
     else if (you.duration[DUR_HASTE] > threshold * BASELINE_DELAY)
         mpr("You already have as much speed as you can handle.");
     else if (!rageext)
+    {
         mpr("You feel as though your hastened speed will last longer.");
+        contaminate_player(1000, true); // always deliberate
+    }
 
     you.increase_duration(DUR_HASTE, turns, threshold);
 
@@ -5766,7 +5769,8 @@ int player::missile_deflection() const
     if (attribute[ATTR_DEFLECT_MISSILES])
         return 2;
 
-    if (get_mutation_level(MUT_DISTORTION_FIELD) == 3
+    if (attribute[ATTR_REPEL_MISSILES]
+        || get_mutation_level(MUT_DISTORTION_FIELD) == 3
         || you.wearing_ego(EQ_ALL_ARMOUR, SPARM_REPULSION)
         || scan_artefacts(ARTP_RMSL, true)
         || have_passive(passive_t::upgraded_storm_shield))
@@ -5779,14 +5783,36 @@ int player::missile_deflection() const
 
 void player::ablate_deflection()
 {
+    const int orig_defl = missile_deflection();
+
+    bool did_something = false;
+    
     if (attribute[ATTR_DEFLECT_MISSILES])
     {
         const int power = calc_spell_power(SPELL_DEFLECT_MISSILES, true);
         if (one_chance_in(2 + power / 8))
         {
             attribute[ATTR_DEFLECT_MISSILES] = 0;
-            mprf(MSGCH_DURATION, "You feel less protected from missiles.");
+            did_something = true;
         }
+    }
+    else if (attribute[ATTR_REPEL_MISSILES])
+    {
+          const int power = calc_spell_power(SPELL_REPEL_MISSILES, true);
+          if (one_chance_in(2 + power / 8))
+          {
+                attribute[ATTR_REPEL_MISSILES] = 0;
+                did_something = true;
+          }
+    }
+    
+    if (did_something)
+    {
+          // We might also have the effect from a non-expiring source.
+          mprf(MSGCH_DURATION, "You feel %s from missiles.",
+                                              missile_deflection() < orig_defl
+                                                  ? "less protected"
+                                                  : "your spell is no longer protecting you");
     }
 }
 

@@ -6,6 +6,7 @@ static vector<spell_type> spellbook_templates[] =
     SPELL_MAGIC_DART,
     SPELL_BLINK,
     SPELL_CALL_IMP,
+    SPELL_REPEL_MISSILES,
     SPELL_SLOW,
     SPELL_CONJURE_FLAME,
     SPELL_MEPHITIC_CLOUD,
@@ -77,6 +78,7 @@ static vector<spell_type> spellbook_templates[] =
     SPELL_VIOLENT_UNRAVELLING,
     SPELL_SILENCE,
     SPELL_DEFLECT_MISSILES,
+    SPELL_HASTE,
     SPELL_DISCORD,
 },
 
@@ -183,6 +185,7 @@ static vector<spell_type> spellbook_templates[] =
 {   // Book of Air
     SPELL_SHOCK,
     SPELL_SWIFTNESS,
+    SPELL_REPEL_MISSILES,
     SPELL_DISCHARGE,
     SPELL_AIRSTRIKE,
     SPELL_LIGHTNING_BOLT,
@@ -255,6 +258,7 @@ static vector<spell_type> spellbook_templates[] =
 {   // Book of Wizardry
     SPELL_FORCE_LANCE,
     SPELL_AGONY,
+    SPELL_HASTE,
     SPELL_INVISIBILITY,
     SPELL_SPELLFORGED_SERVITOR,
 },
