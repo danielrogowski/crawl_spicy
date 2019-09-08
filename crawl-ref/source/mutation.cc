@@ -2304,7 +2304,7 @@ static const facet_def _demon_facets[] =
       { -33, -33, 0 } },
     // Tier 2 facets
     { 2, { MUT_HEAT_RESISTANCE, MUT_FLAME_CLOUD_IMMUNITY, MUT_IGNITE_BLOOD },
-      { -33, 0, 0 } },
+      { -33, -33, 0 } },
     { 2, { MUT_COLD_RESISTANCE, MUT_FREEZING_CLOUD_IMMUNITY, MUT_ICEMAIL },
       { -33, 0, 0 } },
     { 2, { MUT_POWERED_BY_DEATH, MUT_POWERED_BY_DEATH, MUT_POWERED_BY_DEATH },
@@ -2324,7 +2324,7 @@ static const facet_def _demon_facets[] =
     // Tier 3 facets
     // hurl damnation gets online earlier because it's most useful early on and scales with XL
     { 3, { MUT_HEAT_RESISTANCE, MUT_FLAME_CLOUD_IMMUNITY, MUT_HURL_DAMNATION },
-      { -33, 0, 0 } },
+      { -50, -33, -33 } },
     { 3, { MUT_COLD_RESISTANCE, MUT_FREEZING_CLOUD_IMMUNITY, MUT_PASSIVE_FREEZE },
       { 50, 50, 50 } },
     { 3, { MUT_ROBUST, MUT_ROBUST, MUT_ROBUST },
@@ -2381,28 +2381,39 @@ static inline bool undesired_facet(const facet_def* const facet)
           || m == MUT_ROBUST
           || m == MUT_POWERED_BY_PAIN
           || m == MUT_SPINY// is useful, but should conflict with body armor
-          //|| m == MUT_HURL_DAMNATION is it cool or what? especially for non-casters! but of not so much use in extended, and gets online quite late
+          //|| m == MUT_HURL_DAMNATION// is it cool or what? especially for non-casters! but of not so much use in extended, and gets online quite late
         )
           return true;
     }
     return false;
 }
 
+static inline bool contains_hurl_damnation(const facet_def* const facet)
+{
+  for (int i = 0; i < 3; ++i)
+  {
+    if (facet->muts[i] == MUT_HURL_DAMNATION)
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
 static vector<demon_mutation_info> _select_ds_mutations()
 {
-    // added a 2nd lvl 3 mut, removed body facet, added a 3rd lvl 2 mut (to balance this, ds learn at -2)
-    int ct_of_tier[] = { 0, 1, 3, 2 };
+    // added a 2nd lvl 3 mut, removed body facet (to balance this, ds learn at -2)
+    int ct_of_tier[] = { 0, 1, 2, 2 };
     // 1 in 5 chance to create a monstrous set
     if (one_chance_in(5))
     {
         ct_of_tier[0] = 3;
-        // remove a useful mutation while removing a lot of slots? No thanks!
-        //ct_of_tier[1] = 0;
     }
 
     vector<demon_mutation_info> ret;
 
     bool try_again = false;
+    bool hurl_damnation = false;
     
     do {
   
@@ -2418,55 +2429,64 @@ static vector<demon_mutation_info> _select_ds_mutations()
         {
               for (int nfacet = 0; nfacet < ct_of_tier[tier]; ++nfacet)
               {
-                    const facet_def* next_facet;
+                  const facet_def* next_facet;
+    
+                  do
+                  {
+                        next_facet = &RANDOM_ELEMENT(_demon_facets);
+                  }
+                  while (!_works_at_tier(*next_facet, tier)
+                        || facets_used.count(next_facet)
+                        || !_slot_is_unique(next_facet->muts, facets_used)
+                        || undesired_facet(next_facet));
+                  
+                  if (!hurl_damnation)
+                  {
+                    hurl_damnation = contains_hurl_damnation(next_facet);
+                  }
       
-                    do
-                    {
-                          next_facet = &RANDOM_ELEMENT(_demon_facets);
+                  facets_used.insert(next_facet);
+    
+                  for (int i = 0; i < 3; ++i)
+                  {
+                        mutation_type m = next_facet->muts[i];
+      
+                        ret.emplace_back(m, next_facet->when[i], absfacet);
+      
+                        if (m == MUT_COLD_RESISTANCE
+                          || m == MUT_ICEMAIL
+                          || m == MUT_ICY_BLUE_SCALES
+                          || m == MUT_PASSIVE_FREEZE
+                        )
+                            ice_elemental++;
+      
+                        if (m == MUT_HEAT_RESISTANCE
+                          || m == MUT_MOLTEN_SCALES
+                          || m == MUT_IGNITE_BLOOD
+                        )
+                            fire_elemental++;
+      
+                        if (m == MUT_ROT_IMMUNITY
+                          || m == MUT_IGNITE_BLOOD)
+                            cloud_producing++;
                     }
-                    while (!_works_at_tier(*next_facet, tier)
-                          || facets_used.count(next_facet)
-                          || !_slot_is_unique(next_facet->muts, facets_used)
-                          || undesired_facet(next_facet));
+      
+                    ++absfacet;
+              }
+        }
+          
+        if ((ice_elemental && fire_elemental)
+          || cloud_producing > 1
+          || !hurl_damnation)
+        {
+            try_again = true;
+        }
+        else
+        {
+            try_again = false;
+        }
         
-                      facets_used.insert(next_facet);
-        
-                      for (int i = 0; i < 3; ++i)
-                      {
-                            mutation_type m = next_facet->muts[i];
-          
-                            ret.emplace_back(m, next_facet->when[i], absfacet);
-          
-                            if (m == MUT_COLD_RESISTANCE
-                              || m == MUT_ICEMAIL
-                              || m == MUT_ICY_BLUE_SCALES
-                              || m == MUT_PASSIVE_FREEZE
-                            )
-                                ice_elemental++;
-          
-                            if (m == MUT_HEAT_RESISTANCE
-                              || m == MUT_MOLTEN_SCALES
-                              || m == MUT_IGNITE_BLOOD
-                            )
-                                fire_elemental++;
-          
-                            if (m == MUT_ROT_IMMUNITY
-                              || m == MUT_IGNITE_BLOOD)
-                                cloud_producing++;
-                        }
-          
-                        ++absfacet;
-                    }
-                }
-          
-                if (try_again
-                  || (ice_elemental && fire_elemental)
-                  || cloud_producing > 1)
-                    try_again = true;
-                else
-                  try_again = false;
-                
-              } while (try_again);
+      } while (try_again);
 
     return ret;
 }
