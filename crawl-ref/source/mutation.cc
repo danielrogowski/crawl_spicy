@@ -2322,14 +2322,15 @@ static const facet_def _demon_facets[] =
     { 2, { MUT_MANA_SHIELD, MUT_MANA_REGENERATION, MUT_MANA_LINK },
       { -33, 0, 0 } },
     // Tier 3 facets
+    // hurl damnation gets online earlier because it's most useful early on and scales with XL
     { 3, { MUT_HEAT_RESISTANCE, MUT_FLAME_CLOUD_IMMUNITY, MUT_HURL_DAMNATION },
-      { 50, 50, 50 } },
+      { -33, 0, 0 } },
     { 3, { MUT_COLD_RESISTANCE, MUT_FREEZING_CLOUD_IMMUNITY, MUT_PASSIVE_FREEZE },
       { 50, 50, 50 } },
     { 3, { MUT_ROBUST, MUT_ROBUST, MUT_ROBUST },
       { 50, 50, 50 } },
-    { 3, { MUT_NEGATIVE_ENERGY_RESISTANCE, MUT_STOCHASTIC_TORMENT_RESISTANCE,
-           MUT_BLACK_MARK },
+    // black mark before torment resistance, because it's more useful this way
+    { 3, { MUT_NEGATIVE_ENERGY_RESISTANCE, MUT_BLACK_MARK, MUT_STOCHASTIC_TORMENT_RESISTANCE},
       { 50, 50, 50 } },
     { 3, { MUT_AUGMENTATION, MUT_AUGMENTATION, MUT_AUGMENTATION },
       { 50, 50, 50 } },
@@ -2367,10 +2368,30 @@ static bool _slot_is_unique(const mut_array_t &mut,
     return true;
 }
 
+static inline bool undesired_facet(const facet_def* const facet)
+{
+    for (int i = 0; i < 3; ++i)
+    {
+        mutation_type m = facet->muts[i];
+        if (m == MUT_ANTENNAE
+          || m == MUT_THIN_SKELETAL_STRUCTURE
+          || m == MUT_NIGHTSTALKER
+          || m == MUT_FOUL_STENCH
+          || m == MUT_PASSIVE_FREEZE
+          || m == MUT_ROBUST
+          || m == MUT_POWERED_BY_PAIN
+          || m == MUT_SPINY// is useful, but should conflict with body armor
+          //|| m == MUT_HURL_DAMNATION is it cool or what? especially for non-casters! but of not so much use in extended, and gets online quite late
+        )
+          return true;
+    }
+    return false;
+}
+
 static vector<demon_mutation_info> _select_ds_mutations()
 {
-    // added a 2nd level 4 mut (to balance this, ds learn at -2)
-    int ct_of_tier[] = { 1, 1, 2, 2 };
+    // added a 2nd lvl 3 mut, removed body facet, added a 3rd lvl 2 mut (to balance this, ds learn at -2)
+    int ct_of_tier[] = { 0, 1, 3, 2 };
     // 1 in 5 chance to create a monstrous set
     if (one_chance_in(5))
     {
@@ -2402,10 +2423,11 @@ static vector<demon_mutation_info> _select_ds_mutations()
                     do
                     {
                           next_facet = &RANDOM_ELEMENT(_demon_facets);
-                      }
-                      while (!_works_at_tier(*next_facet, tier)
-                            || facets_used.count(next_facet)
-                            || !_slot_is_unique(next_facet->muts, facets_used));
+                    }
+                    while (!_works_at_tier(*next_facet, tier)
+                          || facets_used.count(next_facet)
+                          || !_slot_is_unique(next_facet->muts, facets_used)
+                          || undesired_facet(next_facet));
         
                       facets_used.insert(next_facet);
         
