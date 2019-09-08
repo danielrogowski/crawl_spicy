@@ -1309,9 +1309,9 @@ static const mutation_def mut_data[] =
 { MUT_LARGE_BONE_PLATES, 2, 3, mutflag::good, true,
   "large bone plates",
 
-  {"You are partially covered in large bone plates. (SH +4)",
-   "You are mostly covered in large bone plates. (SH +6)",
-   "You are completely covered in large bone plates. (SH +8)"},
+  {"Your arms are partially covered in large bone plates. (SH +4)",
+   "Your arms are mostly covered in large bone plates. (SH +6)",
+   "Your arms are completely covered in large bone plates. (SH +8)"},
 
   {"Large bone plates grow over parts of your arms.",
    "Large bone plates spread over more of your arms.",
@@ -1325,17 +1325,17 @@ static const mutation_def mut_data[] =
 { MUT_MOLTEN_SCALES, 2, 3, mutflag::good, true,
   "molten scales",
 
-  {"You are partially covered in molten scales. (AC +2)",
-   "You are mostly covered in molten scales. (AC +3)",
-   "You are completely covered in molten scales. (AC +4, rF+)"},
+  {"You are partially covered in fiery red scales. (AC +2)",
+   "You are mostly covered in fiery red scales. (AC +3)",
+   "You are completely covered in fiery red scales. (AC +4, rF+)"},
 
-  {"Molten scales grow over part of your body.",
-   "Molten scales spread over more of your body.",
-   "Molten scales cover your body completely."},
+   {"Fiery red scales grow over part of your body.",
+    "Fiery red scales spread over more of your body.",
+    "Fiery red scales cover your body completely."},
 
-  {"Your molten scales disappear.",
-   "Your molten scales recede somewhat.",
-   "Your molten scales recede somewhat."},
+    {"Your fiery red scales disappear.",
+      "Your fiery red scales recede somewhat.",
+      "Your fiery red scales recede somewhat."},
 },
 
 #if TAG_MAJOR_VERSION == 34

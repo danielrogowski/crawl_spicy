@@ -1020,7 +1020,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_GARGOYLE,         SK_EVOCATIONS,     -1),
 
     // SP_DEMONSPAWN
-    APT(SP_DEMONSPAWN,      SK_FIGHTING,        0),
+    APT(SP_DEMONSPAWN,      SK_FIGHTING,        1),
     APT(SP_DEMONSPAWN,      SK_SHORT_BLADES,   -1),
     APT(SP_DEMONSPAWN,      SK_LONG_BLADES,    -1),
     APT(SP_DEMONSPAWN,      SK_AXES,           -1),
@@ -1041,8 +1041,8 @@ static const species_skill_aptitude species_skill_aptitudes[] =
 #if TAG_MAJOR_VERSION == 34
     APT(SP_DEMONSPAWN,      SK_TRAPS,         UNUSABLE_SKILL),
 #endif
-    APT(SP_DEMONSPAWN,      SK_UNARMED_COMBAT, -1),
-    APT(SP_DEMONSPAWN,      SK_SPELLCASTING,   -1),
+    APT(SP_DEMONSPAWN,      SK_UNARMED_COMBAT,  1),
+    APT(SP_DEMONSPAWN,      SK_SPELLCASTING,    1),
     APT(SP_DEMONSPAWN,      SK_CONJURATIONS,    0),
     APT(SP_DEMONSPAWN,      SK_HEXES,           0),
     APT(SP_DEMONSPAWN,      SK_CHARMS,         -1),

@@ -2369,12 +2369,14 @@ static bool _slot_is_unique(const mut_array_t &mut,
 
 static vector<demon_mutation_info> _select_ds_mutations()
 {
-    int ct_of_tier[] = { 1, 1, 2, 1 };
-    // 1 in 10 chance to create a monstrous set
-    if (one_chance_in(10))
+    // added a 2nd level 4 mut (to balance this, ds learn at -2)
+    int ct_of_tier[] = { 1, 1, 2, 2 };
+    // 1 in 5 chance to create a monstrous set
+    if (one_chance_in(5))
     {
         ct_of_tier[0] = 3;
-        ct_of_tier[1] = 0;
+        // remove a useful mutation while removing a lot of slots? No thanks!
+        //ct_of_tier[1] = 0;
     }
 
     vector<demon_mutation_info> ret;

@@ -302,7 +302,7 @@ static const map<species_type, species_def> species_data =
     "Ds",
     "Demonspawn", "Demonic", nullptr,
     SPF_NONE,
-    -1, 0, 0, 3,
+    -2, 0, 0, 4,
     MONS_DEMONSPAWN,
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
     8, 9, 8, // 25
