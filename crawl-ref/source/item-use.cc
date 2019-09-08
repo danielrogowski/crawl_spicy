@@ -381,7 +381,7 @@ bool can_wield(const item_def *weapon, bool say_reason,
             return false;
     }
     else if (!ignore_temporary_disability
-             && you.hunger_state < HS_FULL
+             && you.hunger_state < HS_SATIATED
              && get_weapon_brand(*weapon) == SPWPN_VAMPIRISM
              && you.undead_state() == US_ALIVE
              && !you_foodless()
