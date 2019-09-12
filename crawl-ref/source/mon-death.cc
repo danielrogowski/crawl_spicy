@@ -538,6 +538,7 @@ item_def* place_monster_corpse(const monster& mons, bool silent, bool force)
                    && mons_gives_xp(mons, you)
                    && !force;
 
+    /*
     const bool no_coinflip =
         mons.props.exists("always_corpse")
         || force
@@ -550,6 +551,7 @@ item_def* place_monster_corpse(const monster& mons, bool silent, bool force)
     // 50/50 chance of getting a corpse, usually.
     if (!no_coinflip && coinflip())
         return nullptr;
+    */
 
     // The game can attempt to place a corpse for an out-of-bounds monster
     // if a shifter turns into a ballistomycete spore and explodes. In this

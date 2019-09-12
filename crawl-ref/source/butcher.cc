@@ -76,7 +76,7 @@ void finish_butchering(item_def& corpse, bool bottling)
     {
         mpr("You bottle the corpse's blood.");
 
-        if (mons_skeleton(corpse.mon_type) && one_chance_in(3))
+        if (mons_skeleton(corpse.mon_type)/* && one_chance_in(3)*/)
             turn_corpse_into_skeleton_and_blood_potions(corpse);
         else
             turn_corpse_into_blood_potions(corpse);
@@ -402,7 +402,7 @@ void butcher_corpse(item_def &item, maybe_bool skeleton, bool chunks)
     item_was_destroyed(item);
     if (!mons_skeleton(item.mon_type))
         skeleton = MB_FALSE;
-    if (skeleton == MB_TRUE || skeleton == MB_MAYBE && one_chance_in(3))
+    if (skeleton == MB_TRUE || skeleton == MB_MAYBE/* && one_chance_in(3)*/)
     {
         if (chunks)
             _turn_corpse_into_skeleton_and_chunks(item, skeleton != MB_TRUE);
