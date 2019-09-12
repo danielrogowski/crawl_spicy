@@ -1634,6 +1634,9 @@ static spret_type _do_cast(spell_type spell, int powc, const dist& spd,
 
     switch (spell)
     {
+    case SPELL_HURL_DAMNATION:
+      mpr("You hurl a sphere of damnation!");
+      break;
     case SPELL_FREEZE:
         return cast_freeze(powc, monster_at(target), fail);
 

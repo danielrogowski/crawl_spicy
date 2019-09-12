@@ -774,17 +774,7 @@ public:
     bool is_unbreathing() const override;
     bool is_insubstantial() const override;
     int res_acid(bool calc_unid = true) const override;
-    bool res_damnation() const override
-    {
-      for (player::demon_trait trait : demonic_traits)
-      {
-        if (trait.mutation == MUT_HURL_DAMNATION)
-        {
-          return true;
-        }
-      }
-      return false;
-    };
+    bool res_damnation() const override;
     int res_fire() const override;
     int res_steam() const override;
     int res_cold() const override;

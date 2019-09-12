@@ -85,6 +85,19 @@
 #include "place.h"
 #include "decks.h"
 
+
+bool player::res_damnation() const
+{
+  for (player::demon_trait trait : demonic_traits)
+  {
+    if (trait.mutation == MUT_HURL_DAMNATION)
+    {
+      return true;
+    }
+  }
+  return false;
+};
+
 static void _fade_curses(int exp_gained);
 static void _handle_insight(int exp_gain);
 

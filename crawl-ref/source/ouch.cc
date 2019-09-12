@@ -148,7 +148,10 @@ int check_your_resists(int hurted, beam_type flavour, string source,
         break;
 
     case BEAM_DAMNATION:
-        break; // sucks to be you (:
+        hurted = resist_adjust_damage(&you, flavour, hurted);
+        if (hurted < original && doEffects)
+          canned_msg(MSG_YOU_RESIST);
+        break;
 
     case BEAM_COLD:
         hurted = resist_adjust_damage(&you, flavour, hurted);
