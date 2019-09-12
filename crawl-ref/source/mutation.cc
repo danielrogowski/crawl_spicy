@@ -2388,14 +2388,12 @@ static inline bool undesired_facet(const facet_def* const facet)
     return false;
 }
 
-static inline bool contains_hurl_damnation(const facet_def* const facet)
+static inline bool contains_mutation(const facet_def* const facet, const mutation_type m)
 {
-  for (int i = 0; i < 3; ++i)
+  for (unsigned int i = 0; i < 3; ++i)
   {
-    if (facet->muts[i] == MUT_HURL_DAMNATION)
-    {
+    if (facet->muts[i] == m)
       return true;
-    }
   }
   return false;
 }
@@ -2414,6 +2412,7 @@ static vector<demon_mutation_info> _select_ds_mutations()
 
     bool try_again = false;
     bool hurl_damnation = false;
+    bool powered_by_death = false;
     
     do {
   
@@ -2441,9 +2440,9 @@ static vector<demon_mutation_info> _select_ds_mutations()
                         || undesired_facet(next_facet));
                   
                   if (!hurl_damnation)
-                  {
-                    hurl_damnation = contains_hurl_damnation(next_facet);
-                  }
+                    hurl_damnation = contains_mutation(next_facet, MUT_HURL_DAMNATION);
+                  if (!powered_by_death)
+                    powered_by_death = contains_mutation(next_facet, MUT_POWERED_BY_DEATH);
       
                   facets_used.insert(next_facet);
     
@@ -2477,14 +2476,11 @@ static vector<demon_mutation_info> _select_ds_mutations()
           
         if ((ice_elemental && fire_elemental)
           || cloud_producing > 1
-          || !hurl_damnation)
-        {
+          || !hurl_damnation
+          || !powered_by_death)
             try_again = true;
-        }
         else
-        {
             try_again = false;
-        }
         
       } while (try_again);
 
