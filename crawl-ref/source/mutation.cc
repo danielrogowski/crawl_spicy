@@ -2324,7 +2324,7 @@ static const facet_def _demon_facets[] =
     // Tier 3 facets
     // hurl damnation gets online earlier because it's most useful early on and scales with XL
     { 3, { MUT_HEAT_RESISTANCE, MUT_FLAME_CLOUD_IMMUNITY, MUT_HURL_DAMNATION },
-      { -33, 0, 0 } },
+      { -33, 0, 33 } },
     { 3, { MUT_COLD_RESISTANCE, MUT_FREEZING_CLOUD_IMMUNITY, MUT_PASSIVE_FREEZE },
       { 50, 50, 50 } },
     { 3, { MUT_ROBUST, MUT_ROBUST, MUT_ROBUST },
