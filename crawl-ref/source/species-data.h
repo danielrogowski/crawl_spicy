@@ -648,7 +648,7 @@ static const map<species_type, species_def> species_data =
     MONS_VAMPIRE,
     HT_LAND, US_SEMI_UNDEAD, SIZE_MEDIUM,
     7, 10, 9, // 26
-    { STAT_INT, STAT_DEX }, 5,
+    { STAT_STR, STAT_INT, STAT_DEX }, 3,
     { { MUT_FANGS, 3, 1 }, { MUT_ACUTE_VISION, 1, 1 },
       { MUT_UNBREATHING, 1, 1 }, },
     {},

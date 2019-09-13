@@ -1176,9 +1176,9 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_MERFOLK,         SK_EVOCATIONS,      0),
 
     // SP_VAMPIRE
-    APT(SP_VAMPIRE,         SK_FIGHTING,       -1),
-    APT(SP_VAMPIRE,         SK_SHORT_BLADES,    1),
-    APT(SP_VAMPIRE,         SK_LONG_BLADES,     0),
+    APT(SP_VAMPIRE,         SK_FIGHTING,        0),
+    APT(SP_VAMPIRE,         SK_SHORT_BLADES,    2),
+    APT(SP_VAMPIRE,         SK_LONG_BLADES,     1),
     APT(SP_VAMPIRE,         SK_AXES,           -1),
     APT(SP_VAMPIRE,         SK_MACES_FLAILS,   -2),
     APT(SP_VAMPIRE,         SK_POLEARMS,       -1),
@@ -1186,9 +1186,9 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_VAMPIRE,         SK_SLINGS,         -2),
     APT(SP_VAMPIRE,         SK_BOWS,           -2),
     APT(SP_VAMPIRE,         SK_CROSSBOWS,      -2),
-    APT(SP_VAMPIRE,         SK_THROWING,       -2),
+    APT(SP_VAMPIRE,         SK_THROWING,        1),
     APT(SP_VAMPIRE,         SK_ARMOUR,         -2),
-    APT(SP_VAMPIRE,         SK_DODGING,         1),
+    APT(SP_VAMPIRE,         SK_DODGING,         2),
     APT(SP_VAMPIRE,         SK_STEALTH,         5),
 #if TAG_MAJOR_VERSION == 34
     APT(SP_VAMPIRE,         SK_STABBING,      UNUSABLE_SKILL),
@@ -1198,7 +1198,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_VAMPIRE,         SK_TRAPS,         UNUSABLE_SKILL),
 #endif
     APT(SP_VAMPIRE,         SK_UNARMED_COMBAT,  1),
-    APT(SP_VAMPIRE,         SK_SPELLCASTING,   -1),
+    APT(SP_VAMPIRE,         SK_SPELLCASTING,    1),
     APT(SP_VAMPIRE,         SK_CONJURATIONS,   -3),
     APT(SP_VAMPIRE,         SK_HEXES,           4),
     APT(SP_VAMPIRE,         SK_CHARMS,          1),
