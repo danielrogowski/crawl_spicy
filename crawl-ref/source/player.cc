@@ -8287,7 +8287,6 @@ const int experience_for_this_floor()
     int exp = 0;
 
     if (!is_safe_branch(you.where_are_you)
-        && you.where_are_you != BRANCH_ABYSS
         && you.where_are_you != BRANCH_ZIGGURAT
         && !(you.where_are_you == BRANCH_DUNGEON && you.depth == 1)
             )
