@@ -437,26 +437,25 @@ int prompt_eat_chunks(bool only_auto)
         found_valid = true;
         chunks.push_back(&(*si));
     }
-
-    // Then search through the inventory.
-    for (auto &item : you.inv)
+    
+    if (you.species != SP_VAMPIRE)
     {
-        if (!item.defined())
-            continue;
+      // Then search through the inventory.
+      for (auto &item : you.inv)
+      {
+          if (!item.defined())
+              continue;
 
-        // Vampires can't eat anything in their inventory.
-        if (you.species == SP_VAMPIRE)
-            continue;
+          if (item.base_type != OBJ_FOOD || item.sub_type != FOOD_CHUNK)
+              continue;
 
-        if (item.base_type != OBJ_FOOD || item.sub_type != FOOD_CHUNK)
-            continue;
+          // Don't prompt for bad food types.
+          if (is_bad_food(item))
+              continue;
 
-        // Don't prompt for bad food types.
-        if (is_bad_food(item))
-            continue;
-
-        found_valid = true;
-        chunks.push_back(&item);
+          found_valid = true;
+          chunks.push_back(&item);
+      }
     }
 
     const bool easy_eat = Options.easy_eat_chunks || only_auto;
@@ -927,7 +926,7 @@ static bool _vampire_consume_corpse(item_def& corpse)
     if (mons_class_holiness(mons_type) & MH_HOLY)
         did_god_conduct(DID_DESECRATE_HOLY_REMAINS, 2);
 
-    if (mons_skeleton(mons_type) && one_chance_in(3))
+    if (mons_skeleton(mons_type)/* && one_chance_in(3)*/)
     {
         turn_corpse_into_skeleton(corpse);
         item_check();
