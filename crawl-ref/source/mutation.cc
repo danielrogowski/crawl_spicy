@@ -774,13 +774,17 @@ static void _display_vampire_attributes()
 
     string result;
 
-    const int lines = 11;
+    const int lines = 13;
     const int columns = 7;
     string column[lines][columns] =
     {
       {"                     ", "<lightcyan>Engorged</lightcyan>         ", "<lightgreen>Very Full</lightgreen>     ", "<green>Full</green>       ", "Satiated   ", "<yellow>Thirsty</yellow>    ", "<lightred>Bloodless</lightred>"},
+      
+      {""},
                                    //Engorged          Very Full        Full           Satiated       Thirsty        Bloodless
         //{"Metabolism           ", "fast          ", "fast           ", "fast       ", "normal     ", "slow       ", "none  "},
+
+        {"Strength bonus       ", "+6               ", "+4            ", "+2         ", "none       ", "none       ", "none  "},
 
         {"Regeneration         ", "extremely fast   ", "very fast     ", "fast       ", "normal     ", "slow       ", "none  "},
 

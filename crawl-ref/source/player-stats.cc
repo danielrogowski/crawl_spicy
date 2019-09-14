@@ -43,22 +43,7 @@ int player::stat(stat_type s, bool nonneg) const
 
 int player::strength(bool nonneg) const
 {
-    int base_stat = stat(STAT_STR, nonneg);
-    if (species == SP_VAMPIRE)
-    {
-      switch(hunger_state)
-      {
-        case HS_ENGORGED:
-          return base_stat + 6;
-        case HS_VERY_FULL:
-          return base_stat + 4;
-        case HS_FULL:
-          return base_stat + 2;
-        default:
-          ;
-      }
-    }
-    return base_stat;
+    return stat(STAT_STR, nonneg);
 }
 
 int player::intel(bool nonneg) const
@@ -394,6 +379,21 @@ static int _strength_modifier(bool innate_only)
 
     if (!innate_only)
     {
+        if (you.species == SP_VAMPIRE)
+        {
+          switch(you.hunger_state)
+          {
+            case HS_ENGORGED:
+              result += 3;
+            case HS_VERY_FULL:
+              result += 2;
+            case HS_FULL:
+              result += 2;
+            default:
+              ;
+          }
+        }
+        
         if (you.duration[DUR_MIGHT] || you.duration[DUR_BERSERK])
             result += 5;
 
