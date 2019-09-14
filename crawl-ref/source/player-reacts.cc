@@ -943,8 +943,13 @@ static void _regenerate_hp_and_mp(int delay)
             inc_hp(1);
         you.hit_points_regeneration -= 100;
     }
+    while (you.hit_points_regeneration <= -100)
+    {
+        you.hurt(nullptr, 1, BEAM_NONE, KILLED_BY_STARVATION, "", "lack of blood");
+        you.hit_points_regeneration += 100;
+    }
 
-    ASSERT_RANGE(you.hit_points_regeneration, 0, 100);
+    ASSERT_RANGE(you.hit_points_regeneration, -100, 100);
 
     update_amulet_attunement_by_health();
 

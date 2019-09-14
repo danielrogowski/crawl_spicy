@@ -747,11 +747,11 @@ static void _describe_hunger(status_info* inf)
     switch (you.hunger_state)
     {
     case HS_ENGORGED:
-        inf->light_colour = (vamp ? GREEN : LIGHTGREEN);
-        inf->light_text   = (vamp ? "Alive" : "Engorged");
+        inf->light_colour = (vamp ? LIGHTCYAN : LIGHTGREEN);
+        inf->light_text   = (/*vamp ? "Alive" : */"Engorged");
         break;
     case HS_VERY_FULL:
-        inf->light_colour = GREEN;
+        inf->light_colour = (vamp ? LIGHTGREEN : GREEN);
         inf->light_text   = "Very Full";
         break;
     case HS_FULL:

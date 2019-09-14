@@ -96,7 +96,7 @@ bool player::res_damnation() const
     }
   }
   return false;
-};
+}
 
 static void _fade_curses(int exp_gained);
 static void _handle_insight(int exp_gain);
@@ -1130,17 +1130,21 @@ int player_regen()
     if (you.species == SP_VAMPIRE)
     {
         if (you.hunger_state <= HS_STARVING)
-            rr = 0;   // No regeneration for starving vampires.
+            rr = - 1 - 1 * you.get_experience_level() * 2 / 3;
         else if (you.hunger_state < HS_SATIATED)
             rr /= 2;  // Halved regeneration for hungry vampires.
-        else if (you.hunger_state >= HS_FULL)
+        else if (you.hunger_state == HS_FULL)
             rr += 20; // Bonus regeneration for full vampires.
+        else if (you.hunger_state == HS_VERY_FULL)
+            rr += 30;
+        else if (you.hunger_state == HS_ENGORGED)
+            rr += 50;
     }
 
-    if (you.duration[DUR_COLLAPSE])
+    if (you.duration[DUR_COLLAPSE] && rr > 0)
         rr /= 4;
 
-    if (you.disease || regeneration_is_inhibited() || !player_regenerates_hp())
+    if (rr > 0 && (you.disease || regeneration_is_inhibited() || !player_regenerates_hp()))
         rr = 0;
 
     // Trog's Hand. This circumvents sickness or inhibited regeneration.
@@ -1249,10 +1253,14 @@ int player_hunger_rate(bool temp)
         case HS_SATIATED:
             break;
         case HS_FULL:
+          hunger++;
+          break;
         case HS_VERY_FULL:
+          hunger += 2;
+          break;
         case HS_ENGORGED:
-            hunger += 2;
-            break;
+          hunger += 3;
+          break;
         }
     }
     else
@@ -1853,10 +1861,11 @@ int player_prot_life(bool calc_unid, bool temp, bool items)
         case HS_HUNGRY:
             pl = 2;
             break;
-        case HS_SATIATED:
-            pl = 1;
-            break;
+      //case HS_SATIATED:
+      //    pl = 1;
+      //    break;
         default:
+            pl = 1;
             break;
         }
     }
@@ -4070,8 +4079,8 @@ bool player_regenerates_hp()
 {
     if (you.has_mutation(MUT_NO_REGENERATION))
         return false;
-    if (you.species == SP_VAMPIRE && you.hunger_state <= HS_STARVING)
-        return false;
+  //if (you.species == SP_VAMPIRE && you.hunger_state <= HS_STARVING)
+  //    return false;
     return true;
 }
 

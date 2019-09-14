@@ -43,7 +43,22 @@ int player::stat(stat_type s, bool nonneg) const
 
 int player::strength(bool nonneg) const
 {
-    return stat(STAT_STR, nonneg);
+    int base_stat = stat(STAT_STR, nonneg);
+    if (species == SP_VAMPIRE)
+    {
+      switch(hunger_state)
+      {
+        case HS_ENGORGED:
+          return base_stat + 6;
+        case HS_VERY_FULL:
+          return base_stat + 4;
+        case HS_FULL:
+          return base_stat + 2;
+        default:
+          ;
+      }
+    }
+    return base_stat;
 }
 
 int player::intel(bool nonneg) const

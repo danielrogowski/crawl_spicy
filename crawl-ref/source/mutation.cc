@@ -774,61 +774,66 @@ static void _display_vampire_attributes()
 
     string result;
 
-    const int lines = 12;
-    string column[lines][5] =
+    const int lines = 11;
+    const int columns = 7;
+    string column[lines][columns] =
     {
-        {"                     ", "<green>Full</green>       ", "Satiated   ", "<yellow>Thirsty</yellow>    ", "<lightred>Bloodless</lightred>"},
-                                 //Full       Satiated      Thirsty         Bloodless
-        {"Metabolism           ", "fast       ", "normal     ", "slow       ", "none  "},
+      {"                     ", "<lightcyan>Engorged</lightcyan>         ", "<lightgreen>Very Full</lightgreen>     ", "<green>Full</green>       ", "Satiated   ", "<yellow>Thirsty</yellow>    ", "<lightred>Bloodless</lightred>"},
+                                   //Engorged          Very Full        Full           Satiated       Thirsty        Bloodless
+        //{"Metabolism           ", "fast          ", "fast           ", "fast       ", "normal     ", "slow       ", "none  "},
 
-        {"Regeneration         ", "fast       ", "normal     ", "slow       ", "none  "},
+        {"Regeneration         ", "extremely fast   ", "very fast     ", "fast       ", "normal     ", "slow       ", "none  "},
 
-        {"Stealth boost        ", "none       ", "none       ", "minor      ", "major "},
+        {"Stealth boost        ", "none             ", "none          ", "none       ", "none       ", "minor      ", "major "},
 
-        {"Hunger costs         ", "full       ", "full       ", "halved     ", "none  "},
+        {"Hunger costs         ", "very high        ", "even higher   ", "higher     ", "full       ", "halved     ", "none  "},
 
         {"\n<w>Resistances</w>\n"
-         "Poison resistance    ", "           ", "           ", "+          ", "immune"},
+         "Poison resistance    ", "                 ", "              ", "           ", "           ", "+          ", "immune"},
 
-        {"Cold resistance      ", "           ", "           ", "+          ", "++    "},
+        {"Cold resistance      ", "                 ", "              ", "           ", "           ", "+          ", "++    "},
 
-        {"Negative resistance  ", "           ", " +         ", "++         ", "+++   "},
+        {"Negative resistance  ", "+                ", "+             ", "+          ", " +         ", "++         ", "+++   "},
 
-        {"Rotting resistance   ", "           ", "           ", "+          ", "+     "},
+        {"Rotting resistance   ", "                 ", "              ", "           ", "           ", "+          ", "+     "},
 
-        {"Torment resistance   ", "           ", "           ", "           ", "+     "},
+        {"Torment resistance   ", "                 ", "              ", "           ", "           ", "           ", "+     "},
 
         {"\n<w>Transformations</w>\n"
-         "Bat form             ", "no         ", "yes        ", "yes        ", "yes   "},
+         "Bat form             ", "no               ", "no            ", "no         ", "yes        ", "yes        ", "yes   "},
 
         {"Other forms and \n"
-         "berserk              ", "yes        ", "yes        ", "no         ", "no    "}
+         "berserk              ", "yes              ", "yes           ", "yes        ", "yes        ", "no         ", "no    "}
     };
 
     int current = 0;
     switch (you.hunger_state)
     {
     case HS_ENGORGED:
-    case HS_VERY_FULL:
-    case HS_FULL:
         current = 1;
         break;
-    case HS_SATIATED:
+    case HS_VERY_FULL:
         current = 2;
+        break;
+    case HS_FULL:
+        current = 3;
+        break;
+    case HS_SATIATED:
+        current = 4;
         break;
     case HS_HUNGRY:
     case HS_VERY_HUNGRY:
     case HS_NEAR_STARVING:
-        current = 3;
+        current = 5;
         break;
     case HS_STARVING:
     case HS_FAINTING:
-        current = 4;
+        current = 6;
     }
 
     for (int y = 0; y < lines; y++)  // lines   (properties)
     {
-        for (int x = 0; x < 5; x++)  // columns (hunger states)
+        for (int x = 0; x < columns; x++)  // columns (hunger states)
         {
             if (y > 0 && x == current)
                 result += "<w>";

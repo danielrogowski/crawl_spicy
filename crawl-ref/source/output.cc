@@ -2416,8 +2416,14 @@ static vector<formatted_string> _get_overview_resistances(
 
     out += _stealth_bar(get_number_of_cols()) + "\n";
 
-    const int regen = player_regen(); // round up
-    out += make_stringf("HPRegen  %d.%d%d/turn\n", regen/100, regen/10%10, regen%10);
+    int regen = player_regen(); // round up
+    if (regen < 0)
+    {
+      regen *= -1;
+      out += make_stringf("HPRegen -%d.%d%d/turn\n", regen/100, regen/10%10, regen%10);
+    }
+    else
+      out += make_stringf("HPRegen  %d.%d%d/turn\n", regen/100, regen/10%10, regen%10);
 
     const bool etheric = player_equip_unrand(UNRAND_ETHERIC_CAGE);
     const int mp_regen = player_mp_regen() //round up
