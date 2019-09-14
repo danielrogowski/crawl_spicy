@@ -1011,16 +1011,16 @@ void handle_starvation()
                 {
                     return can_eat(food, true);
                 });
-                // chunks should be eaten 1st, if possible
-                auto it2 = find_if(begin(you.inv), end(you.inv),
-                    [](const item_def& food) -> bool
+            // chunks should be eaten 1st, if possible
+            auto it2 = find_if(begin(you.inv), end(you.inv),
+                [](const item_def& food) -> bool
+                {
+                    if (!can_eat(food, true) || food.sub_type != FOOD_CHUNK)
                     {
-                        if (!can_eat(food, true) || food.sub_type != FOOD_CHUNK)
-                        {
-                            return false;
-                        }
-                        return true;
-                    });
+                        return false;
+                    }
+                    return true;
+                });
             if (it2 != end(you.inv))
             {
                 it = it2;
