@@ -384,7 +384,7 @@ static int _strength_modifier(bool innate_only)
           switch(you.hunger_state)
           {
             case HS_ENGORGED:
-              result += 3;
+              result += 2;
             case HS_VERY_FULL:
               result += 2;
             case HS_FULL:

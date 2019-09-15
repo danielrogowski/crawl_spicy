@@ -1136,17 +1136,17 @@ int player_regen()
         else if (you.hunger_state == HS_FULL)
         {
             rr += 1;
-            rr *= 2;
+            rr *= 3/2;
         }
         else if (you.hunger_state == HS_VERY_FULL)
         {
             rr += 2;
-            rr *= 3;
+            rr *= 10/4;
         }
         else if (you.hunger_state == HS_ENGORGED)
         {
             rr += 3;
-            rr *= 5;
+            rr *= 3;
         }
     }
 

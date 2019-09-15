@@ -34,6 +34,7 @@
 #include "notes.h"
 #include "options.h"
 #include "output.h"
+#include "player-stats.h"
 #include "religion.h"
 #include "rot.h"
 #include "state.h"
@@ -72,6 +73,9 @@ void make_hungry(int hunger_amount, bool suppress_msg,
 
     if (!suppress_msg && !state_message)
         _describe_food_change(-hunger_amount);
+    
+    if (you.species == SP_VAMPIRE)
+      notify_stat_change();
 }
 
 /**
@@ -103,6 +107,9 @@ void lessen_hunger(int satiated_amount, bool suppress_msg, int max)
 
     if (!suppress_msg && !state_message)
         _describe_food_change(satiated_amount);
+    
+    if (you.species == SP_VAMPIRE)
+      notify_stat_change();
 }
 
 void set_hunger(int new_hunger_level, bool suppress_msg)
